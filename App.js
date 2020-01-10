@@ -5,14 +5,30 @@
  */
 
 import React, { Component } from 'react';
-import RootTabNavigator from './src/RootTabNavigator'
-import RootStackNavigator from './src/RootStackNavigator'
-import RootDrawer from './src/RootDrawer'
-
+import {View,Text,ScrollView,Button,NativeModules} from 'react-native';
+export const CallbackModule = NativeModules.CallbackModule1;
 export default class App extends Component<{}> {
+
+    state = {
+        text:''
+    }
   render() {
     return (
-      <RootDrawer/>
+        <ScrollView>
+            <Button
+                title={'扫码'}
+                onPress={() => {
+                    CallbackModule.doScan().then(re => {
+                        this.setState({
+                            text:re
+                        })
+                    });
+                }}>
+            </Button>
+            <View>
+                <Text>扫描到的文本为:{this.state.text}</Text>
+            </View>
+        </ScrollView>
     );
   }
 }
